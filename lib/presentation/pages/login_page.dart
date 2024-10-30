@@ -131,7 +131,9 @@ class _LoginPageState extends State<LoginPage> {
               CustomElevatedButton(
                 title: "Login",
                 onTap: (){
-                  login(context);
+                  if(_formKey.currentState!.validate()){
+                    login(context);
+                  }
                 },
               ),
               const SizedBox(height: 10),
