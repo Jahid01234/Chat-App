@@ -1,55 +1,28 @@
-import 'package:chat_app/presentation/pages/auth/auth_services.dart';
 import 'package:chat_app/presentation/widgets/custom_button.dart';
 import 'package:chat_app/presentation/widgets/custom_text_form_field.dart';
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 
-class LoginPage extends StatefulWidget {
+class RegisterPage extends StatefulWidget {
   final void Function()? onTap;
 
-  const LoginPage({
+  const RegisterPage({
     super.key,
     required this.onTap,
   });
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<RegisterPage> createState() => _RegisterPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _RegisterPageState extends State<RegisterPage> {
+
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _confirmPasswordController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  bool _obscureText = true;
-
-  // login method
-  void login(context) async{
-    // access the AuthServices
-    final authServices = AuthServices();
-
-    // try to login
-    try {
-      await authServices.signInWithEmailAndPassword(
-        _emailController.text,
-        _passwordController.text,
-      );
-    }
-
-    // catch any errors
-    catch(e){
-      showDialog(
-          context: context,
-          builder: (context){
-            return AlertDialog(
-              title: const Center(
-                  child: Text("Login error"),
-              ),
-              content: Text(e.toString()),
-            );
-          },
-      );
-      Navigator.pop(context);
-    }
-  }
+  bool _obscureText1 = true;
+  bool _obscureText2 = true;
 
   @override
   Widget build(BuildContext context) {
@@ -69,9 +42,9 @@ class _LoginPageState extends State<LoginPage> {
               ),
               const SizedBox(height: 50),
 
-              // Welcome back message
+              // Let's create an account for you!
               Text(
-                "Welcome back, you've been missed!",
+                "Let's create an account for you!",
                  style: TextStyle(
                    color: Theme.of(context).colorScheme.primary,
                    fontSize: 19,
@@ -99,7 +72,7 @@ class _LoginPageState extends State<LoginPage> {
 
               // Password textFormField
               CustomTextFormField(
-                obscureText: _obscureText,
+                obscureText: _obscureText1,
                 controller: _passwordController,
                 validator: (String? value){
                   if(value==null || value.isEmpty){
@@ -115,10 +88,40 @@ class _LoginPageState extends State<LoginPage> {
                 prefixIcon: Icons.lock,
                 suffixIcon: IconButton(
                   onPressed: (){
-                    _obscureText = !_obscureText;
+                    _obscureText1 = !_obscureText1;
                     setState(() {});
                   },
-                  icon: Icon( _obscureText
+                  icon: Icon( _obscureText1
+                      ? Icons.visibility
+                      : Icons.visibility_off,
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
+                ) ,
+              ),
+              const SizedBox(height: 10),
+
+              // Confirm Password textFormField
+              CustomTextFormField(
+                obscureText: _obscureText2,
+                controller: _confirmPasswordController,
+                validator: (String? value){
+                  if(value==null || value.isEmpty){
+                    return "Please enter password";
+                  }
+                  else if(value.length<=7){
+                    return " please enter 8 character";
+                  }
+                  return null;
+                },
+                keyboardType: TextInputType.visiblePassword,
+                hintText: "Enter your confirm password",
+                prefixIcon: Icons.lock,
+                suffixIcon: IconButton(
+                  onPressed: (){
+                    _obscureText2 = !_obscureText2;
+                    setState(() {});
+                  },
+                  icon: Icon( _obscureText2
                       ? Icons.visibility
                       : Icons.visibility_off,
                     color: Theme.of(context).colorScheme.primary,
@@ -127,21 +130,18 @@ class _LoginPageState extends State<LoginPage> {
               ),
               const SizedBox(height: 30),
 
-              // Login button
+              // Register button
               CustomElevatedButton(
-                title: "Login",
-                onTap: (){
-                  login(context);
-                },
+                title: "Register",
+                onTap: (){},
               ),
               const SizedBox(height: 10),
 
-              // Register now
+              // Login now
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
-                    "Not a member? ",
+                  Text("Already have an account? ",
                     style: TextStyle(
                         color: Theme.of(context).colorScheme.primary,
                     ),
@@ -149,10 +149,10 @@ class _LoginPageState extends State<LoginPage> {
                   GestureDetector(
                     onTap: widget.onTap ,
                     child: Text(
-                      "Register now",
+                      "Login now",
                       style: TextStyle(
-                        color: Theme.of(context).colorScheme.primary,
-                        fontWeight: FontWeight.bold
+                          color: Theme.of(context).colorScheme.primary,
+                          fontWeight: FontWeight.bold
                       ),
                     ),
                   ),
@@ -169,6 +169,7 @@ class _LoginPageState extends State<LoginPage> {
   void dispose() {
     _emailController.dispose();
     _passwordController.dispose();
+    _confirmPasswordController.dispose();
     super.dispose();
   }
 }

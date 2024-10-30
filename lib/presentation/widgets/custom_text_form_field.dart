@@ -41,6 +41,7 @@ class CustomTextFormField extends StatelessWidget {
           filled: true,
           fillColor: Theme.of(context).colorScheme.secondary,
           hintText: hintText,
+          hintStyle: const TextStyle(fontSize: 15),
           prefixIcon: Icon(
             prefixIcon,
             color: Theme.of(context).colorScheme.primary,

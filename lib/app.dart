@@ -1,4 +1,4 @@
-import 'package:chat_app/presentation/pages/login_page.dart';
+import 'package:chat_app/presentation/pages/auth/auth_gate.dart';
 import 'package:chat_app/resources/themes/light_mode.dart';
 import 'package:flutter/material.dart';
 
@@ -12,7 +12,7 @@ class ChatApp extends StatelessWidget {
       title: 'Chat App',
       debugShowCheckedModeBanner: false,
       theme: lightMode,
-      home: const LoginPage(),
+      home: const AuthGate(),
     );
   }
 }
