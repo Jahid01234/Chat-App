@@ -22,7 +22,7 @@ class _LoginPageState extends State<LoginPage> {
   bool _obscureText = true;
 
   // login method
-  void login(context) async{
+  void login( context) async{
     // access the AuthServices
     final authServices = AuthServices();
 
@@ -32,22 +32,29 @@ class _LoginPageState extends State<LoginPage> {
         _emailController.text,
         _passwordController.text,
       );
-    }
-
-    // catch any errors
-    catch(e){
-      showDialog(
+      // errors throw
+    } catch(e){
+        showDialog(
           context: context,
-          builder: (context){
+          builder: (context) {
             return AlertDialog(
               title: const Center(
-                  child: Text("Login error"),
+                child: Text(
+                  "Login error",
+                  style: TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
               ),
               content: Text(e.toString()),
             );
           },
-      );
-      Navigator.pop(context);
+        );
+
+        // Close the dialog after 2 seconds
+        await Future.delayed(const Duration(seconds: 2));
+        Navigator.pop(context);
     }
   }
 

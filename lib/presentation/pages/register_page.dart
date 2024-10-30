@@ -1,7 +1,7 @@
+import 'package:chat_app/presentation/pages/auth/auth_services.dart';
 import 'package:chat_app/presentation/widgets/custom_button.dart';
 import 'package:chat_app/presentation/widgets/custom_text_form_field.dart';
 import 'package:flutter/material.dart';
-import 'package:page_transition/page_transition.dart';
 
 class RegisterPage extends StatefulWidget {
   final void Function()? onTap;
@@ -16,13 +16,66 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
-
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _confirmPasswordController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   bool _obscureText1 = true;
   bool _obscureText2 = true;
+
+  // Register method
+  void register(context) async{
+    // access the AuthServices
+    final authServices = AuthServices();
+
+    // password match and then try to Register
+    if(_passwordController.text == _confirmPasswordController.text) {
+      try {
+        await authServices.signUpWithEmailPassword(
+          _emailController.text,
+          _passwordController.text,
+        );
+        // errors throw
+      } catch (e) {
+        showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: const Center(
+                child: Text(
+                  "Register error",
+                  style: TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+              content: Text(e.toString()),
+            );
+          },
+        );
+        // Close the dialog after 2 seconds
+        await Future.delayed(const Duration(seconds: 2));
+        Navigator.pop(context);
+      }
+      // password does not match and then show error message
+    } else{
+      showDialog(
+        context: context,
+        builder: (context) {
+          return const AlertDialog(
+            content: Text("Password does not match!",style: TextStyle(
+                fontSize: 15,
+             ),
+            ),
+          );
+        },
+      );
+      // Close the dialog after 2 seconds
+      await Future.delayed(const Duration(seconds: 2));
+      Navigator.pop(context);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -133,7 +186,11 @@ class _RegisterPageState extends State<RegisterPage> {
               // Register button
               CustomElevatedButton(
                 title: "Register",
-                onTap: (){},
+                onTap: (){
+                  if(_formKey.currentState!.validate()){
+                    register(context);
+                  }
+                },
               ),
               const SizedBox(height: 10),
 
