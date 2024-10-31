@@ -1,4 +1,5 @@
 import 'package:chat_app/presentation/pages/auth/auth_services.dart';
+import 'package:chat_app/presentation/widgets/my_drawer.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -9,7 +10,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  // logout  method
+
+  // logout  method..........
   void logout() async {
     // access the authServices
     final authServices = AuthServices();
@@ -20,7 +22,9 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.secondary,
         title: const Text("Home"),
+        centerTitle: true,
         actions: [
           IconButton(
               onPressed: logout,
@@ -28,6 +32,7 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
+      drawer: MyDrawer(),
     );
   }
 }

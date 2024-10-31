@@ -23,7 +23,7 @@ class _RegisterPageState extends State<RegisterPage> {
   bool _obscureText1 = true;
   bool _obscureText2 = true;
 
-  // Register method
+  // Register method.....
   void register(context) async{
     // access the AuthServices
     final authServices = AuthServices();
