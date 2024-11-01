@@ -1,6 +1,7 @@
 import 'package:chat_app/data/services/auth/auth_gate.dart';
-import 'package:chat_app/resources/themes/light_mode.dart';
+import 'package:chat_app/resources/themes/theme_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ChatApp extends StatelessWidget {
   const ChatApp({super.key});
@@ -11,7 +12,7 @@ class ChatApp extends StatelessWidget {
     return MaterialApp(
       title: 'Chat App',
       debugShowCheckedModeBanner: false,
-      theme: lightMode,
+      theme: Provider.of<ThemeProvider>(context).themeData,
       home: const AuthGate(),
     );
   }
