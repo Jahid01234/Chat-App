@@ -1,4 +1,5 @@
-import 'package:chat_app/presentation/pages/auth/auth_services.dart';
+import 'package:chat_app/data/services/auth/auth_services.dart';
+import 'package:chat_app/presentation/pages/settings_page.dart';
 import 'package:flutter/material.dart';
 
 class MyDrawer extends StatelessWidget {
@@ -52,7 +53,12 @@ class MyDrawer extends StatelessWidget {
                 color: Theme.of(context).colorScheme.primary,
                ),
               ),
-              onTap: (){},
+              onTap: (){
+                Navigator.push(context, MaterialPageRoute(
+                  builder: (context)=> const SettingsPage(),
+                  ),
+                );
+              },
             ),
           ),
 

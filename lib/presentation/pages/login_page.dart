@@ -1,4 +1,4 @@
-import 'package:chat_app/presentation/pages/auth/auth_services.dart';
+import 'package:chat_app/data/services/auth/auth_services.dart';
 import 'package:chat_app/presentation/widgets/custom_button.dart';
 import 'package:chat_app/presentation/widgets/custom_text_form_field.dart';
 import 'package:flutter/material.dart';
@@ -21,10 +21,10 @@ class _LoginPageState extends State<LoginPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   bool _obscureText = true;
 
-  // login method
+  // login method..............
   void login( context) async{
     // access the AuthServices
-    final authServices = AuthServices();
+    final AuthServices authServices = AuthServices();
 
     // try to login
     try {
