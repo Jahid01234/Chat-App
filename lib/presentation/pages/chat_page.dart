@@ -25,6 +25,10 @@ class _ChatPageState extends State<ChatPage> {
 
   // text controller
   final TextEditingController _messageController = TextEditingController();
+  final ScrollController _scrollController = ScrollController();
+
+  // for focus node
+  final FocusNode _myFocusNode = FocusNode();
 
   // send message method.............................
   void sendMessage() async {
@@ -32,11 +36,43 @@ class _ChatPageState extends State<ChatPage> {
     if(_messageController.text.isNotEmpty){
       // send the message
       await chatServices.sendMessage(widget.receiverID, _messageController.text);
-
       // clear text controller
       _messageController.clear();
     }
+    scrollDown();
   }
+
+  // scroll down controller...........
+  void scrollDown(){
+    _scrollController.animateTo(
+         _scrollController.position.maxScrollExtent,
+        duration: const Duration(seconds: 1),
+        curve: Curves.fastOutSlowIn,
+    );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    // add listener to focus node
+    _myFocusNode.addListener(() {
+      if(_myFocusNode.hasFocus){
+        // keyboard has time to show up
+        // then scroll down
+        Future.delayed(
+            const Duration(milliseconds: 500),
+            ()=> scrollDown(),
+        );
+      }
+    });
+
+    // wait a bit for listView to be built, the scroll to bottom
+    Future.delayed(
+      const Duration(milliseconds: 500),
+          ()=> scrollDown(),
+    );
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -88,6 +124,7 @@ class _ChatPageState extends State<ChatPage> {
 
         // return list view show user messages
         return ListView(
+          controller: _scrollController,
           primary: false,
           shrinkWrap: true,
           scrollDirection: Axis.vertical,
@@ -100,7 +137,6 @@ class _ChatPageState extends State<ChatPage> {
   // build message item.........
   Widget _buildMessageItem(DocumentSnapshot doc){
     Map<String,dynamic> data = doc.data() as Map<String,dynamic>;
-
     //is current user check
     bool isCurrentUser = data['senderID'] == authServices.getCurrentUser()!.uid;
 
@@ -118,6 +154,7 @@ class _ChatPageState extends State<ChatPage> {
                 message: data["message"],
                 isCurrentUser: isCurrentUser,
             ),
+
           ],
         ),
     );
@@ -132,9 +169,9 @@ class _ChatPageState extends State<ChatPage> {
           // text input field
           Expanded(
               child: TextField(
-                expands: false,
                 controller: _messageController,
                 obscureText: false,
+                focusNode: _myFocusNode,
                 decoration: InputDecoration(
                   contentPadding:const EdgeInsets.all(10),
                   border: OutlineInputBorder(
@@ -157,8 +194,8 @@ class _ChatPageState extends State<ChatPage> {
 
           // send the message icon
           Container(
-            decoration: const BoxDecoration(
-              color: Colors.cyan,
+            decoration:const BoxDecoration(
+              color: Colors.blueGrey,
               shape: BoxShape.circle,
             ),
             child: IconButton(
@@ -178,6 +215,8 @@ class _ChatPageState extends State<ChatPage> {
   @override
   void dispose() {
     _messageController.dispose();
+    _scrollController.dispose();
+    _myFocusNode.dispose();
     super.dispose();
   }
 }
