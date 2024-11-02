@@ -1,3 +1,4 @@
+import 'package:chat_app/presentation/widgets/app_bar_widget.dart';
 import 'package:chat_app/resources/themes/theme_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -18,10 +19,9 @@ class _SettingsPageState extends State<SettingsPage> {
 
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        foregroundColor: Colors.grey,
-        elevation: 0,
+      appBar: const AppBarWidget(
+        title: "Settings",
+        centerTitle: true,
       ),
       body:Container(
         margin: const EdgeInsets.all(25),

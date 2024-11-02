@@ -27,7 +27,7 @@ class _HomePageState extends State<HomePage> {
         foregroundColor: Colors.grey,
         elevation: 0,
         title: const Text("Home"),
-        centerTitle: true,
+        centerTitle:true ,
       ),
       drawer: const MyDrawer(),
       body: _buildUserList(),

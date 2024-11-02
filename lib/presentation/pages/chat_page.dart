@@ -1,5 +1,6 @@
 import 'package:chat_app/data/services/auth/auth_services.dart';
 import 'package:chat_app/data/services/chat/chat_services.dart';
+import 'package:chat_app/presentation/widgets/app_bar_widget.dart';
 import 'package:chat_app/presentation/widgets/chat_bubble.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -78,11 +79,8 @@ class _ChatPageState extends State<ChatPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        foregroundColor: Colors.grey,
-        elevation: 0,
-        title: Text(widget.receiverEmail),
+      appBar: AppBarWidget(
+        title: widget.receiverEmail,
       ),
       body:  Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -220,3 +218,5 @@ class _ChatPageState extends State<ChatPage> {
     super.dispose();
   }
 }
+
+
