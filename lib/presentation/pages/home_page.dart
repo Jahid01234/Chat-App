@@ -26,7 +26,7 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: Colors.transparent,
         foregroundColor: Colors.grey,
         elevation: 0,
-        title: const Text("Home"),
+        title: const Text("USERS"),
         centerTitle:true ,
       ),
       drawer: const MyDrawer(),
@@ -37,7 +37,7 @@ class _HomePageState extends State<HomePage> {
   // build a list of users expect for the current logged in user..............
   Widget _buildUserList(){
      return StreamBuilder(
-       stream: chatServices.getUsersStream(),
+       stream: chatServices.getUsersStreamExcludingBlocked(),
        builder: (context, snapshot){
          // loading circle
          if(snapshot.connectionState == ConnectionState.waiting){

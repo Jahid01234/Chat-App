@@ -40,6 +40,8 @@ class _ChatPageState extends State<ChatPage> {
       // clear text controller
       _messageController.clear();
     }
+
+    // for message scroll down
     scrollDown();
   }
 
@@ -55,7 +57,7 @@ class _ChatPageState extends State<ChatPage> {
   @override
   void initState() {
     super.initState();
-    // add listener to focus node
+    // add listener to focus node(for textField scroll)
     _myFocusNode.addListener(() {
       if(_myFocusNode.hasFocus){
         // keyboard has time to show up
@@ -67,7 +69,7 @@ class _ChatPageState extends State<ChatPage> {
       }
     });
 
-    // wait a bit for listView to be built, the scroll to bottom
+    // wait a bit for listView to be built, the scroll to bottom(for ListView message scroll)
     Future.delayed(
       const Duration(milliseconds: 500),
           ()=> scrollDown(),
@@ -150,6 +152,8 @@ class _ChatPageState extends State<ChatPage> {
           children: [
             ChatBubble(
                 message: data["message"],
+                messageID: doc.id,
+                userID: data["senderID"],
                 isCurrentUser: isCurrentUser,
             ),
 
@@ -158,7 +162,7 @@ class _ChatPageState extends State<ChatPage> {
     );
   }
 
-  // build user input message.........
+  // build user input text field and send message button.........
   Widget _buildUserInputMessage(){
     return Padding(
       padding: const EdgeInsets.only(bottom: 20),
