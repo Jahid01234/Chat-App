@@ -101,6 +101,16 @@ class ChatServices extends ChangeNotifier {
 
   }
 
+  // DELETED MESSAGE.........................
+  Future<void> deleteMessage(String chatRoomID, String messageID) async {
+    await _firestore
+        .collection("chat_rooms")
+        .doc(chatRoomID)
+        .collection("messages")
+        .doc(messageID)
+        .delete();
+  }
+
 
   // REPORT USERS................................
    Future<void> reportUser(String messageID, String userID) async{

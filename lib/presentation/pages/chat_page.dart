@@ -154,6 +154,7 @@ class _ChatPageState extends State<ChatPage> {
                 message: data["message"],
                 messageID: doc.id,
                 userID: data["senderID"],
+                otherUserID: widget.receiverID,
                 isCurrentUser: isCurrentUser,
             ),
 

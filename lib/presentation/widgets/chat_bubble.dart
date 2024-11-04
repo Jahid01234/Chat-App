@@ -7,6 +7,7 @@ class ChatBubble extends StatelessWidget {
   final String message;
   final String messageID;
   final String userID;
+  final String otherUserID;
   final bool isCurrentUser;
 
   const ChatBubble({
@@ -14,10 +15,11 @@ class ChatBubble extends StatelessWidget {
     required this.message,
     required this.messageID,
     required this.userID,
+    required this.otherUserID,
     required this.isCurrentUser,
   });
 
-  // Show Option.................
+  // Show Option for Block/Report/Cancel.................
   void _showOptions(context, String messageID, String userID){
     showModalBottomSheet(
         context: context,
@@ -132,6 +134,50 @@ class ChatBubble extends StatelessWidget {
     );
   }
 
+  // Delete the current user's message.....................
+  void _deleteMessage(context) async {
+    // Construct chat room ID
+    List<String> ids = [userID, otherUserID];
+    ids.sort();
+    String chatRoomID = ids.join('_');
+
+    // show deleted dialog box
+    showDialog(
+        context: context,
+        builder: (context){
+          return AlertDialog(
+            title: const Text("Deleted Message"),
+            content: const Text("Are you sure that you want to deleted this message?"),
+            actions: [
+              // cancel button
+              TextButton(
+                onPressed: (){
+                  Navigator.pop(context);
+                },
+                child: const Text("Cancel"),
+              ),
+
+              // report button
+              TextButton(
+                onPressed: () {
+                  // Call deleteMessage from ChatServices
+                 ChatServices().deleteMessage(chatRoomID, messageID);
+                 Navigator.pop(context);
+                 ScaffoldMessenger.of(context).showSnackBar(
+                   const SnackBar(
+                     content: Text("Message deleted successfully."),
+                   ),
+                 );
+                },
+                child: const Text("Delete"),
+              ),
+            ],
+          );
+        }
+    );
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -143,6 +189,11 @@ class ChatBubble extends StatelessWidget {
         // check: the user is not current user
         if(!isCurrentUser){
           _showOptions(context, messageID, userID);
+        }
+      },
+      onTap: (){
+        if(isCurrentUser){
+          _deleteMessage(context);
         }
       },
       child: Container(
