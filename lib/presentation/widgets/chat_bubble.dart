@@ -1,4 +1,5 @@
 import 'package:chat_app/data/services/chat/chat_services.dart';
+import 'package:chat_app/presentation/widgets/alert_dialog_box.dart';
 import 'package:chat_app/resources/themes/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -19,7 +20,7 @@ class ChatBubble extends StatelessWidget {
     required this.isCurrentUser,
   });
 
-  // Show Option for Block/Report/Cancel.................
+  // Show Options for Block/Report/Cancel.................
   void _showOptions(context, String messageID, String userID){
     showModalBottomSheet(
         context: context,
@@ -67,32 +68,20 @@ class ChatBubble extends StatelessWidget {
     showDialog(
         context: context,
         builder: (context){
-          return AlertDialog(
-            title: const Text("Report Message"),
-            content: const Text("Are you sure that you want to report this message?"),
-            actions: [
-               // cancel button
-               TextButton(
-                   onPressed: (){
-                     Navigator.pop(context);
-                   },
-                   child: const Text("Cancel"),
-               ),
-
-               // report button
-              TextButton(
-                onPressed: (){
-                  ChatServices().reportUser(messageID,userID);
-                  Navigator.pop(context);
-                  ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                          content:Text("Message reported successfully."),
-                      ),
-                  );
-                },
-                child: const Text("Report"),
-              ),
-            ],
+          return AlertDialogBox(
+            title: "Report Message",
+            content: "Are you sure that you want to report this message?",
+            text: "Report",
+            onPressed: (){
+              // Call Report user from ChatServices
+              ChatServices().reportUser(messageID,userID);
+              Navigator.of(context).pop();
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content:Text("Message reported successfully."),
+                   ),
+                 );
+              },
           );
         }
     );
@@ -103,32 +92,20 @@ class ChatBubble extends StatelessWidget {
     showDialog(
         context: context,
         builder: (context){
-          return AlertDialog(
-            title: const Text("Block user"),
-            content: const Text("Are you sure that you want to block this user?"),
-            actions: [
-              // cancel button
-              TextButton(
-                onPressed: (){
-                  Navigator.pop(context);
-                },
-                child: const Text("Cancel"),
-              ),
-
-              // block button
-              TextButton(
-                onPressed: (){
-                  ChatServices().blockUser(userID);
-                  Navigator.pop(context);
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content:Text("Block user successfully."),
-                    ),
-                  );
-                },
-                child: const Text("Block"),
-              ),
-            ],
+          return AlertDialogBox(
+            title: "Block User",
+            content: "Are you sure that you want to block this user?",
+            text: "Block",
+            onPressed: (){
+              // Call Block user from ChatServices
+              ChatServices().blockUser(userID);
+              Navigator.of(context).pop();
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content:Text("Block user successfully."),
+                ),
+              );
+            },
           );
         }
     );
@@ -145,33 +122,20 @@ class ChatBubble extends StatelessWidget {
     showDialog(
         context: context,
         builder: (context){
-          return AlertDialog(
-            title: const Text("Deleted Message"),
-            content: const Text("Are you sure that you want to deleted this message?"),
-            actions: [
-              // cancel button
-              TextButton(
-                onPressed: (){
-                  Navigator.pop(context);
-                },
-                child: const Text("Cancel"),
-              ),
-
-              // report button
-              TextButton(
-                onPressed: () {
-                  // Call deleteMessage from ChatServices
-                 ChatServices().deleteMessage(chatRoomID, messageID);
-                 Navigator.pop(context);
-                 ScaffoldMessenger.of(context).showSnackBar(
+          return AlertDialogBox(
+              title: "Deleted Message",
+              content: "Are you sure that you want to deleted this message?",
+              text: "Delete",
+              onPressed: (){
+                // Call deleteMessage from ChatServices
+                ChatServices().deleteMessage(chatRoomID, messageID);
+                Navigator.pop(context);
+                ScaffoldMessenger.of(context).showSnackBar(
                    const SnackBar(
-                     content: Text("Message deleted successfully."),
-                   ),
+                      content: Text("Message deleted successfully."),
+                     ),
                  );
-                },
-                child: const Text("Delete"),
-              ),
-            ],
+              },
           );
         }
     );

@@ -69,10 +69,10 @@ class _SettingsPageState extends State<SettingsPage> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 // Block user text show
-                const Text(
+                Text(
                    "Blocked user" ,
                   style: TextStyle(
-                    color: Colors.grey,
+                    color: themeProvider.isLightMode? Colors.grey :null,
                     fontSize: 16,
                   ),
                 ),
