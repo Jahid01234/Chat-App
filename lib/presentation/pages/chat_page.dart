@@ -173,8 +173,9 @@ class _ChatPageState extends State<ChatPage> {
           Expanded(
               child: TextField(
                 controller: _messageController,
-                obscureText: false,
                 focusNode: _myFocusNode,
+                maxLines: null, // Allow multiline input
+                textInputAction: TextInputAction.newline,// space new line
                 decoration: InputDecoration(
                   contentPadding:const EdgeInsets.all(10),
                   border: OutlineInputBorder(
@@ -191,7 +192,7 @@ class _ChatPageState extends State<ChatPage> {
                     ),
                   ),
                 ),
-              )
+              ),
           ),
           const SizedBox(width: 10),
 
