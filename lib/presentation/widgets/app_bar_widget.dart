@@ -46,7 +46,11 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(title,style: const TextStyle(fontSize: 18)),
+              Text(
+                  title,
+                  style: const TextStyle(fontSize: 18),
+              ),
+
               // if text is null, it does not assign space for column
               if (text != null && text!.isNotEmpty)
                 Text(

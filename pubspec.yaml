@@ -41,6 +41,7 @@ dependencies:
   provider: ^6.1.2
   page_transition: ^2.1.0
   cloud_firestore: ^5.4.0
+  zego_uikit_prebuilt_call: ^4.12.11
 
 
 dev_dependencies:
