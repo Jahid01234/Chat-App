@@ -83,6 +83,17 @@ class _ChatPageState extends State<ChatPage> {
       backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBarWidget(
         title: widget.receiverEmail,
+        text: "Online",
+        showAvatar: true,
+        actions: [
+          IconButton(
+            onPressed: (){},
+            icon: const Icon(
+              Icons.video_call_outlined,
+              size: 28,
+            ),
+          ),
+        ],
       ),
       body:  Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10),
