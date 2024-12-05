@@ -1,9 +1,12 @@
 import 'package:chat_app/data/services/auth/auth_services.dart';
 import 'package:chat_app/data/services/chat/chat_services.dart';
+import 'package:chat_app/presentation/pages/call_invitation_page.dart';
 import 'package:chat_app/presentation/widgets/app_bar_widget.dart';
 import 'package:chat_app/presentation/widgets/chat_bubble.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+
+
 
 class ChatPage extends StatefulWidget {
   final String receiverEmail ;
@@ -77,7 +80,11 @@ class _ChatPageState extends State<ChatPage> {
   }
 
 
-  @override
+
+
+
+
+@override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
@@ -87,7 +94,14 @@ class _ChatPageState extends State<ChatPage> {
         showAvatar: true,
         actions: [
           IconButton(
-            onPressed: (){},
+            onPressed: () async{
+             await Navigator.push(context, MaterialPageRoute(
+                  builder: (context)=> CallInvitationPage(
+                    callId: widget.receiverID,
+                  ),
+                ),
+              );
+            },
             icon: const Icon(
               Icons.video_call_outlined,
               size: 28,
