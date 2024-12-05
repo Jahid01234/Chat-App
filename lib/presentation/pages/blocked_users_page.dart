@@ -81,7 +81,14 @@ class BlockedUsersPage extends StatelessWidget {
           // no blocked user
           if(blockedUsers.isEmpty){
             return const Center(
-              child: Text("No blocked users"),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Icon(Icons.search),
+                  Text("No blocked users"),
+                ],
+              ),
             );
           }
 
