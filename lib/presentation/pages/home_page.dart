@@ -81,7 +81,7 @@ class _HomePageState extends State<HomePage> {
                     receiverEmail: userData["email"],
                     receiverID: userData["uid"],
                   ),
-            ),
+              ),
             );
           },
         );

@@ -1,5 +1,6 @@
 import 'package:chat_app/data/services/chat/chat_services.dart';
 import 'package:chat_app/presentation/widgets/alert_dialog_box.dart';
+import 'package:chat_app/presentation/widgets/snack_bar_message.dart';
 import 'package:chat_app/resources/themes/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -76,11 +77,7 @@ class ChatBubble extends StatelessWidget {
               // Call Report user from ChatServices
               ChatServices().reportUser(messageID,userID);
               Navigator.of(context).pop();
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content:Text("Message reported successfully."),
-                   ),
-                 );
+              showSnackBarMessage(context, "Message reported successfully.");
               },
           );
         }
@@ -100,11 +97,7 @@ class ChatBubble extends StatelessWidget {
               // Call Block user from ChatServices
               ChatServices().blockUser(userID);
               Navigator.of(context).pop();
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content:Text("Block user successfully."),
-                ),
-              );
+              showSnackBarMessage(context, "Block user successfully.");
             },
           );
         }
@@ -130,11 +123,7 @@ class ChatBubble extends StatelessWidget {
                 // Call deleteMessage from ChatServices
                 ChatServices().deleteMessage(chatRoomID, messageID);
                 Navigator.pop(context);
-                ScaffoldMessenger.of(context).showSnackBar(
-                   const SnackBar(
-                      content: Text("Message deleted successfully."),
-                     ),
-                 );
+                showSnackBarMessage(context, "Message deleted successfully.");
               },
           );
         }

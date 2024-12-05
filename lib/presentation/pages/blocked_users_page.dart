@@ -1,6 +1,7 @@
 import 'package:chat_app/data/services/auth/auth_services.dart';
 import 'package:chat_app/data/services/chat/chat_services.dart';
 import 'package:chat_app/presentation/widgets/app_bar_widget.dart';
+import 'package:chat_app/presentation/widgets/snack_bar_message.dart';
 import 'package:chat_app/presentation/widgets/user_tile.dart';
 import 'package:flutter/material.dart';
 
@@ -30,11 +31,7 @@ class BlockedUsersPage extends StatelessWidget {
                 onPressed: (){
                   ChatServices().unblockUser(userID);
                   Navigator.pop(context);
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content:Text("Unblock user successfully."),
-                    ),
-                  );
+                  showSnackBarMessage(context, "Unblock user successfully.");
                 },
                 child: const Text("Unblock"),
               ),
