@@ -1,7 +1,8 @@
-import 'package:chat_app/data/services/auth/login_or_register.dart';
+import 'package:chat_app/presentation/pages/login_or_register.dart';
 import 'package:chat_app/presentation/pages/home_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+
 
 class AuthGate extends StatelessWidget {
   const AuthGate({super.key});
@@ -25,3 +26,4 @@ class AuthGate extends StatelessWidget {
     );
   }
 }
+

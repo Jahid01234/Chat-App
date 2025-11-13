@@ -3,6 +3,7 @@ import 'package:chat_app/resources/themes/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+
 class ChatApp extends StatelessWidget {
   const ChatApp({super.key});
 
@@ -20,3 +21,5 @@ class ChatApp extends StatelessWidget {
     );
   }
 }
+
+

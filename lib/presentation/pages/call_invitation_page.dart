@@ -5,6 +5,7 @@ import 'package:zego_uikit_prebuilt_call/zego_uikit_prebuilt_call.dart';
 import 'package:zego_uikit_signaling_plugin/zego_uikit_signaling_plugin.dart';
 
 
+
 class CallInvitationPage extends StatefulWidget {
   final String callId;
 
@@ -32,7 +33,6 @@ class _CallInvitationPageState extends State<CallInvitationPage> {
       config: ZegoUIKitPrebuiltCallConfig.oneOnOneVideoCall(),
       plugins: [ZegoUIKitSignalingPlugin()],
     );
-
   }
 }
 

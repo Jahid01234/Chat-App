@@ -1,5 +1,5 @@
 
 class AppInfo{
-  static int appId = 480563803;
-  static String appSign = '25a28dd71d25760391553d69d9c44de92abdf5bc676c1b8aea787c587e701e2f';
+  static int appId = 378328369;
+  static String appSign = 'e887f04f4bebf9b1cdf8cdf322f39bc883a7e2c9e1db54be41db60caa2f183b9';
 }
