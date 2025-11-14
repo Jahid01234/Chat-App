@@ -2,6 +2,7 @@ import 'package:chat_app/data/services/auth/auth_services.dart';
 import 'package:chat_app/data/services/chat/chat_services.dart';
 import 'package:chat_app/presentation/widgets/app_bar_widget.dart';
 import 'package:chat_app/presentation/widgets/chat_bubble.dart';
+import 'package:chat_app/presentation/widgets/snack_bar_message.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:zego_uikit_prebuilt_call/zego_uikit_prebuilt_call.dart';
@@ -36,50 +37,10 @@ class _ChatPageState extends State<ChatPage> {
 
 
 
-  // Send video call invitation
-  void sendVideoCallInvitation() async {
-    try {
-      print('Sending video call invitation to: ${widget.receiverID}');
-
-      await ZegoUIKitPrebuiltCallInvitationService().send(
-        invitees: [
-          ZegoCallUser(
-            widget.receiverID,
-            widget.receiverEmail,
-          ),
-        ],
-        isVideoCall: true,
-      );
-
-      print('Video call invitation sent successfully');
-    } catch (e) {
-      print('Error sending video call invitation: $e');
-
-      String errorMessage = 'Failed to send video call: $e';
-
-      // Custom handling for specific signaling error
-      if (e.toString().contains('301003001') ||
-          e.toString().contains('107026')) {
-        errorMessage =
-        'Receiver is not logged in or not connected to Zego service.';
-      }
-
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(errorMessage),
-            backgroundColor: Colors.red,
-          ),
-        );
-      }
-    }
-  }
-
-
-  // Send audio call invitation
+  // Send audio call invitation.........
   void sendAudioCallInvitation() async {
     try {
-      print('Sending audio call invitation to: ${widget.receiverID}');
+      debugPrint('Sending audio call invitation to: ${widget.receiverID}');
 
       await ZegoUIKitPrebuiltCallInvitationService().send(
         invitees: [
@@ -91,19 +52,50 @@ class _ChatPageState extends State<ChatPage> {
         isVideoCall: false,
       );
 
-      print('Audio call invitation sent successfully');
+      debugPrint('Audio call invitation sent successfully');
     } catch (e) {
-      print('Error sending audio call invitation: $e');
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Failed to send audio call: $e'),
-            backgroundColor: Colors.red,
-          ),
-        );
+        showSnackBarMessage(context,e.toString());
       }
     }
   }
+
+  // Send video call invitation.....
+  void sendVideoCallInvitation() async {
+    try {
+      debugPrint('Sending video call invitation to: ${widget.receiverID}');
+
+      await ZegoUIKitPrebuiltCallInvitationService().send(
+        invitees: [
+          ZegoCallUser(
+            widget.receiverID,
+            widget.receiverEmail,
+          ),
+        ],
+        isVideoCall: true,
+      );
+
+      debugPrint('Video call invitation sent successfully');
+    } catch (e) {
+      debugPrint('Error sending video call invitation: $e');
+
+      String errorMessage = 'Failed to send video call: $e';
+
+      // Custom handling for specific signaling error
+      if (e.toString().contains('301003001') ||
+          e.toString().contains('107026')) {
+        errorMessage =
+        'Receiver is not logged in or not connected to Zego service.';
+      }
+
+      if (mounted) {
+        showSnackBarMessage(context,errorMessage);
+      }
+    }
+  }
+
+
+
 
   // send message method.............................
   void sendMessage() async {

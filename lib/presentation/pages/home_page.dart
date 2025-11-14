@@ -5,18 +5,13 @@ import 'package:chat_app/presentation/widgets/my_drawer.dart';
 import 'package:chat_app/presentation/widgets/user_tile.dart';
 import 'package:flutter/material.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+class HomePage extends StatelessWidget {
+   HomePage({super.key});
 
-  @override
-  State<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
   // access the auth and chat Services
   final AuthServices authServices = AuthServices();
-  final ChatServices chatServices = ChatServices();
 
+  final ChatServices chatServices = ChatServices();
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +61,6 @@ class _HomePageState extends State<HomePage> {
      );
   }
 
-
     // build individual list tile for user..................................
     Widget _buildUserListItem(Map<String, dynamic> userData, context){
       // display all users except current user
@@ -89,5 +83,4 @@ class _HomePageState extends State<HomePage> {
         return Container();
       }
     }
-
 }

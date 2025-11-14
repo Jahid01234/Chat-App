@@ -16,8 +16,8 @@ class AuthServices{
     return _auth.currentUser;
   }
 
-  // Initialize Zego for user.....................
-  Future<void> _initZegoForUser(User user) async {
+  // Initialize Zego for user audio/video call function.....................
+  Future<void> initZegoForUser(User user) async {
     try {
       debugPrint('🔄 Starting Zego initialization for: ${user.email}');
 
@@ -49,12 +49,6 @@ class AuthServices{
       if (kDebugMode) {
         print('✅ Zego initialized successfully for: ${user.email}');
       }
-      if (kDebugMode) {
-        print('✅ User ID: ${user.uid}');
-      }
-      if (kDebugMode) {
-        print('✅ Ready to send/receive calls');
-      }
     } catch (e) {
       if (kDebugMode) {
         print('❌ Error initializing Zego: $e');
@@ -81,7 +75,7 @@ class AuthServices{
           }
       );
       // Initialize Zego after successful login
-      await _initZegoForUser(userCredential.user!);
+      await initZegoForUser(userCredential.user!);
       return userCredential;
 
     } on FirebaseAuthException catch(e){
@@ -107,7 +101,7 @@ class AuthServices{
         }
       );
       // Initialize Zego after successful login
-      await _initZegoForUser(userCredential.user!);
+      await initZegoForUser(userCredential.user!);
       return userCredential;
 
     } on FirebaseAuthException catch(e){
@@ -118,8 +112,6 @@ class AuthServices{
    // sign out..................
   Future<void> signOut() async {
     try {
-      debugPrint('🔄 Logging out and uninitializing Zego...');
-
       // Uninitialize Zego before signing out
       await ZegoUIKitPrebuiltCallInvitationService().uninit();
 
@@ -133,3 +125,7 @@ class AuthServices{
     debugPrint('✅ User signed out from Firebase');
   }
 }
+
+
+
+
