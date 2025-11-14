@@ -111,20 +111,12 @@ class AuthServices{
 
    // sign out..................
   Future<void> signOut() async {
-    try {
-      // Uninitialize Zego before signing out
-      await ZegoUIKitPrebuiltCallInvitationService().uninit();
-
-      debugPrint('✅ Zego uninitialized successfully');
-    } catch (e) {
-      debugPrint('⚠️ Error uninitializing Zego: $e');
-    }
-
-    // Sign out from Firebase
+    await ZegoUIKitPrebuiltCallInvitationService().uninit();
     await _auth.signOut();
-    debugPrint('✅ User signed out from Firebase');
   }
 }
+
+
 
 
 

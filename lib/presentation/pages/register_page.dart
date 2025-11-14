@@ -22,11 +22,15 @@ class _RegisterPageState extends State<RegisterPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   bool _obscureText1 = true;
   bool _obscureText2 = true;
+  bool _isLoading = false;
 
   // Register method.....
   void register(context) async{
     // access the AuthServices
     final AuthServices authServices = AuthServices();
+    setState(() {
+      _isLoading = true;
+    });
 
     // password match and then try to Register
     if(_passwordController.text == _confirmPasswordController.text) {
@@ -75,6 +79,9 @@ class _RegisterPageState extends State<RegisterPage> {
       await Future.delayed(const Duration(seconds: 2));
       Navigator.pop(context);
     }
+    setState(() {
+      _isLoading = false;
+    });
   }
 
   @override
@@ -186,6 +193,7 @@ class _RegisterPageState extends State<RegisterPage> {
               // Register button
               CustomElevatedButton(
                 title: "Register",
+                isLoading: _isLoading,
                 onTap: (){
                   if(_formKey.currentState!.validate()){
                     register(context);

@@ -10,15 +10,15 @@ class ChatServices extends ChangeNotifier {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  // GET ALL USERS STREAM...................
-   Stream<List<Map<String,dynamic>>> getUsersStream(){
-     return _firestore.collection("Users").snapshots().map((snapshot) {
-       return snapshot.docs
-              .where((doc) => doc.data()['email'] != _auth.currentUser!.email)
-              .map((doc) => doc.data())
-              .toList();
-       });
-   }
+  // // GET ALL USERS STREAM...................
+  //  Stream<List<Map<String,dynamic>>> getUsersStream(){
+  //    return _firestore.collection("Users").snapshots().map((snapshot) {
+  //      return snapshot.docs
+  //             .where((doc) => doc.data()['email'] != _auth.currentUser!.email)
+  //             .map((doc) => doc.data())
+  //             .toList();
+  //      });
+  //  }
 
 
    // GET ALL USERS STREAM EXCEPT BLOCKED USERS..............
@@ -173,3 +173,5 @@ class ChatServices extends ChangeNotifier {
   }
 
 }
+
+
