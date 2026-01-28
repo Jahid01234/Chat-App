@@ -19,7 +19,7 @@ class ProfilePage extends StatelessWidget {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
       appBar: const AppBarWidget(
-        title: "PROFILE",
+        title: "Profile",
         centerTitle: true,
       ),
       body: Center(

@@ -1,4 +1,5 @@
 import 'package:chat_app/data/services/auth/auth_services.dart';
+import 'package:chat_app/presentation/pages/live_streaming_page.dart';
 import 'package:chat_app/presentation/pages/profile_page.dart';
 import 'package:chat_app/presentation/pages/settings_page.dart';
 import 'package:flutter/material.dart';
@@ -35,7 +36,7 @@ class MyDrawer extends StatelessWidget {
             padding: const EdgeInsets.only(left: 15,right: 8),
             child: ListTile(
               leading: Icon(Icons.home,color: Theme.of(context).colorScheme.primary,),
-              title: Text('H O M E',style: TextStyle(
+              title: Text('Home',style: TextStyle(
                  color: Theme.of(context).colorScheme.primary,
                ),
               ),
@@ -45,12 +46,30 @@ class MyDrawer extends StatelessWidget {
             ),
           ),
 
+          // Live streaming tile
+          Padding(
+            padding: const EdgeInsets.only(left: 15,right: 8),
+            child: ListTile(
+              leading: Icon(Icons.videocam,color: Theme.of(context).colorScheme.primary,),
+              title: Text('Live  Streaming',style: TextStyle(
+                color: Theme.of(context).colorScheme.primary,
+              ),
+              ),
+              onTap: (){
+                Navigator.push(context, MaterialPageRoute(
+                  builder: (context)=>  const LiveStreamingPage(),
+                 ),
+                );
+              },
+            ),
+          ),
+
           // Settings list tile
           Padding(
             padding: const EdgeInsets.only(left: 15,right: 8),
             child: ListTile(
               leading: Icon(Icons.person,color: Theme.of(context).colorScheme.primary,),
-              title: Text('P R O F I L E',style: TextStyle(
+              title: Text('Profile',style: TextStyle(
                 color: Theme.of(context).colorScheme.primary,
               ),
               ),
@@ -68,7 +87,7 @@ class MyDrawer extends StatelessWidget {
             padding: const EdgeInsets.only(left: 15,right: 8),
             child: ListTile(
               leading: Icon(Icons.settings,color: Theme.of(context).colorScheme.primary,),
-              title: Text('S E T T I N G S',style: TextStyle(
+              title: Text('Settings',style: TextStyle(
                 color: Theme.of(context).colorScheme.primary,
                ),
               ),
@@ -86,7 +105,7 @@ class MyDrawer extends StatelessWidget {
             padding: const EdgeInsets.only(left: 15,right: 8,),
             child: ListTile(
                 leading: Icon(Icons.logout,color: Theme.of(context).colorScheme.primary,),
-                title: Text('L O G O U T',style: TextStyle(
+                title: Text('Log out',style: TextStyle(
                   color: Theme.of(context).colorScheme.primary,
                 ),
                 ),

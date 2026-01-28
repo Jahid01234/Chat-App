@@ -19,6 +19,7 @@ class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _confirmPasswordController = TextEditingController();
+  final TextEditingController _userNameController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   bool _obscureText1 = true;
   bool _obscureText2 = true;
@@ -36,6 +37,7 @@ class _RegisterPageState extends State<RegisterPage> {
     if(_passwordController.text == _confirmPasswordController.text) {
       try {
         await authServices.signUpWithEmailPassword(
+          _userNameController.text,
           _emailController.text,
           _passwordController.text,
         );
@@ -111,6 +113,21 @@ class _RegisterPageState extends State<RegisterPage> {
                  ),
               ),
               const SizedBox(height: 20),
+
+              // Email textFormField
+              CustomTextFormField(
+                controller: _userNameController,
+                validator: (String? value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter your name';
+                  }
+                  return null;
+                },
+                keyboardType: TextInputType.name,
+                hintText: "Enter your name",
+                prefixIcon: Icons.person,
+              ),
+              const SizedBox(height: 10),
 
               // Email textFormField
               CustomTextFormField(

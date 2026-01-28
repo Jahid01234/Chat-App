@@ -16,7 +16,7 @@ class SettingsPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
       appBar: const AppBarWidget(
-        title: "SETTINGS",
+        title: "Settings",
         centerTitle: true,
       ),
       body:Column(
@@ -76,7 +76,7 @@ class SettingsPage extends StatelessWidget {
                 IconButton(
                     onPressed: (){
                       Navigator.push(context, MaterialPageRoute(
-                          builder: (context)=> const BlockedUsersPage(),
+                          builder: (context)=>  BlockedUsersPage(),
                         ),
                       );
                     },

@@ -1,3 +1,4 @@
+import 'package:chat_app/data/models/user_model.dart';
 import 'package:chat_app/data/services/auth/auth_services.dart';
 import 'package:chat_app/data/services/chat/chat_services.dart';
 import 'package:chat_app/presentation/widgets/app_bar_widget.dart';
@@ -6,59 +7,24 @@ import 'package:chat_app/presentation/widgets/user_tile.dart';
 import 'package:flutter/material.dart';
 
 class BlockedUsersPage extends StatelessWidget {
-  const BlockedUsersPage({super.key});
+   BlockedUsersPage({super.key});
 
+  // access the auth and chat Services
+  final AuthServices authServices = AuthServices();
+  final ChatServices chatServices = ChatServices();
 
-  // show unblock user......
-   void _showUnblockUser(context, String userID){
-    showDialog(
-        context: context,
-        builder: (context){
-          return AlertDialog(
-            title: const Text("Unblock User"),
-            content: const Text("Are you sure that you want to unblock this user?"),
-            actions: [
-              // cancel button
-              TextButton(
-                onPressed: (){
-                  Navigator.pop(context);
-                },
-                child: const Text("Cancel"),
-              ),
-
-              // unblock button
-              TextButton(
-                onPressed: (){
-                  ChatServices().unblockUser(userID);
-                  Navigator.pop(context);
-                  showSnackBarMessage(context, "Unblock user successfully.");
-                },
-                child: const Text("Unblock"),
-              ),
-            ],
-          );
-        }
-    );
-  }
-
+  // get current user id
+  late final String userID = authServices.getCurrentUser()!.uid;
 
   @override
   Widget build(BuildContext context) {
-    // access the auth and chat Services
-    final AuthServices authServices = AuthServices();
-    final ChatServices chatServices = ChatServices();
-
-    // get current user id
-    String userID = authServices.getCurrentUser()!.uid;
-
-    // Ui
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
       appBar: const AppBarWidget(
           title: "BLOCKED USERS",
           centerTitle: true,
       ),
-      body:StreamBuilder<List<Map<String,dynamic>>>(
+      body:StreamBuilder<List<UserModel>>(
         stream: chatServices.getBlockedUsersStream(userID),
         builder: (context,snapshot){
           // loading circle
@@ -98,15 +64,47 @@ class BlockedUsersPage extends StatelessWidget {
             itemBuilder: (context,index){
               final user = blockedUsers[index];
               return UserTile(
-                text: user["email"],
+                text: user.userName,
                 onTap:(){
-                  _showUnblockUser(context,user["uid"]);
+                  _showUnblockUser(context,user.uid);
                 } ,
               );
             },
           );
         },
       ) ,
+    );
+  }
+
+  // show unblock user......
+  void _showUnblockUser(context, String userID){
+    showDialog(
+        context: context,
+        builder: (context){
+          return AlertDialog(
+            title: const Text("Unblock User"),
+            content: const Text("Are you sure that you want to unblock this user?"),
+            actions: [
+              // cancel button
+              TextButton(
+                onPressed: (){
+                  Navigator.pop(context);
+                },
+                child: const Text("Cancel"),
+              ),
+
+              // unblock button
+              TextButton(
+                onPressed: (){
+                  ChatServices().unblockUser(userID);
+                  Navigator.pop(context);
+                  showSnackBarMessage(context, "Unblock user successfully.");
+                },
+                child: const Text("Unblock"),
+              ),
+            ],
+          );
+        }
     );
   }
 }

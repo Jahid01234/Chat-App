@@ -77,19 +77,8 @@ class _ChatPageState extends State<ChatPage> {
 
       debugPrint('Video call invitation sent successfully');
     } catch (e) {
-      debugPrint('Error sending video call invitation: $e');
-
-      String errorMessage = 'Failed to send video call: $e';
-
-      // Custom handling for specific signaling error
-      if (e.toString().contains('301003001') ||
-          e.toString().contains('107026')) {
-        errorMessage =
-        'Receiver is not logged in or not connected to Zego service.';
-      }
-
       if (mounted) {
-        showSnackBarMessage(context,errorMessage);
+        showSnackBarMessage(context,e.toString());
       }
     }
   }

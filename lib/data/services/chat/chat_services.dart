@@ -1,4 +1,5 @@
 import 'package:chat_app/data/models/message_model.dart';
+import 'package:chat_app/data/models/user_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -10,41 +11,57 @@ class ChatServices extends ChangeNotifier {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  // // GET ALL USERS STREAM...................
-  //  Stream<List<Map<String,dynamic>>> getUsersStream(){
-  //    return _firestore.collection("Users").snapshots().map((snapshot) {
-  //      return snapshot.docs
-  //             .where((doc) => doc.data()['email'] != _auth.currentUser!.email)
-  //             .map((doc) => doc.data())
-  //             .toList();
-  //      });
-  //  }
-
 
    // GET ALL USERS STREAM EXCEPT BLOCKED USERS..............
-   Stream<List<Map<String,dynamic>>> getUsersStreamExcludingBlocked(){
-     final currentUser = _auth.currentUser;
-     return _firestore
-               .collection("Users")
-               .doc(currentUser!.uid)
-               .collection("BlockedUsers")
-               .snapshots()
-               .asyncMap((snapshot) async{
-         // get list of blocked user ids
-         final blockedUserIds = snapshot.docs.map((doc) => doc.id).toList();
+   // Stream<List<Map<String,dynamic>>> getUsersStreamExcludingBlocked(){
+   //   final currentUser = _auth.currentUser;
+   //   return _firestore
+   //             .collection("Users")
+   //             .doc(currentUser!.uid)
+   //             .collection("BlockedUsers")
+   //             .snapshots()
+   //             .asyncMap((snapshot) async{
+   //       // get list of blocked user ids
+   //       final blockedUserIds = snapshot.docs.map((doc) => doc.id).toList();
+   //
+   //       // get all users
+   //       final userDocs = await _firestore.collection("Users").get();
+   //
+   //       // return as a stream list, excluding current user and blocked users
+   //        return userDocs.docs
+   //                .where((doc) => doc.data()['email'] != currentUser.email && !blockedUserIds.contains(doc.id))
+   //                .map((doc) => doc.data())
+   //                .toList();
+   //
+   //     });
+   //
+   // }
 
-         // get all users
-         final userDocs = await _firestore.collection("Users").get();
+  Stream<List<UserModel>> getUsersStreamExcludingBlocked() {
+    final currentUser = _auth.currentUser;
 
-         // return as a stream list, excluding current user and blocked users
-          return userDocs.docs
-                  .where((doc) => doc.data()['email'] != currentUser.email && !blockedUserIds.contains(doc.id))
-                  .map((doc) => doc.data())
-                  .toList();
+    return _firestore
+        .collection("Users")
+        .doc(currentUser!.uid)
+        .collection("BlockedUsers")
+        .snapshots()
+        .asyncMap((snapshot) async {
+      // 1️⃣ blocked user ids
+      final blockedUserIds = snapshot.docs.map((doc) => doc.id).toList();
 
-       });
+      // 2️⃣ get all users
+      final userDocs = await _firestore.collection("Users").get();
 
-   }
+      // 3️⃣ convert to UserModel list
+      return userDocs.docs
+          .where((doc) =>
+      doc.id != currentUser.uid &&
+          !blockedUserIds.contains(doc.id))
+          .map((doc) => UserModel.fromMap(doc.data()))
+          .toList();
+    });
+  }
+
 
 
   // SEND MESSAGE ...............
@@ -153,24 +170,55 @@ class ChatServices extends ChangeNotifier {
 
 
   // GET BLOCKED USERS STREAM..............................
-  Stream<List<Map<String,dynamic>>> getBlockedUsersStream(String userID){
-     return _firestore
-              .collection("Users")
-              .doc(userID)
-              .collection("BlockedUsers")
-              .snapshots()
-              .asyncMap((snapshot) async{
-                // get list of blocked user ids
-              final blockedUserIds = snapshot.docs.map((doc) => doc.id).toList();
+  // Stream<List<Map<String,dynamic>>> getBlockedUsersStream(String userID){
+  //    return _firestore
+  //             .collection("Users")
+  //             .doc(userID)
+  //             .collection("BlockedUsers")
+  //             .snapshots()
+  //             .asyncMap((snapshot) async{
+  //               // get list of blocked user ids
+  //             final blockedUserIds = snapshot.docs.map((doc) => doc.id).toList();
+  //
+  //             final userDocs = await Future.wait(
+  //                 blockedUserIds.map((id) => _firestore.collection("Users").doc(id).get()),
+  //             );
+  //       // return as a list
+  //       return userDocs.map((doc) => doc.data() as Map<String,dynamic>).toList();
+  //    });
+  //
+  // }
 
-              final userDocs = await Future.wait(
-                  blockedUserIds.map((id) => _firestore.collection("Users").doc(id).get()),
-              );
-        // return as a list
-        return userDocs.map((doc) => doc.data() as Map<String,dynamic>).toList();
-     });
+  Stream<List<UserModel>> getBlockedUsersStream(String userID) {
+    return _firestore
+        .collection("Users")
+        .doc(userID)
+        .collection("BlockedUsers")
+        .snapshots()
+        .asyncMap((snapshot) async {
+      // 1️⃣ blocked user IDs
+      final blockedUserIds =
+      snapshot.docs.map((doc) => doc.id).toList();
 
+      if (blockedUserIds.isEmpty) {
+        return <UserModel>[];
+      }
+
+      // 2️⃣ fetch blocked user documents
+      final userDocs = await Future.wait(
+        blockedUserIds.map(
+              (id) => _firestore.collection("Users").doc(id).get(),
+        ),
+      );
+
+      // 3️⃣ Map Firestore data → UserModel
+      return userDocs
+          .where((doc) => doc.exists && doc.data() != null)
+          .map((doc) => UserModel.fromMap(doc.data()!))
+          .toList();
+    });
   }
+
 
 }
 

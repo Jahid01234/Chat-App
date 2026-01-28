@@ -293,10 +293,10 @@ packages:
     dependency: transitive
     description:
       name: file_picker
-      sha256: f2d9f173c2c14635cc0e9b14c143c49ef30b4934e8d1d274d6206fcb0086a06f
+      sha256: d974b6ba2606371ac71dd94254beefb6fa81185bde0b59bdc1df09885da85fde
       url: "https://pub.dev"
     source: hosted
-    version: "10.3.3"
+    version: "10.3.8"
   firebase_auth:
     dependency: "direct main"
     description:
@@ -438,6 +438,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.0.0+4"
+  flutter_styled_toast:
+    dependency: transitive
+    description:
+      name: flutter_styled_toast
+      sha256: "94aa40eb706ad0d03483e2255901902d3584aa5abc8659295cc1040d2c153e0a"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.3.0"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -1201,26 +1209,26 @@ packages:
     dependency: transitive
     description:
       name: zego_express_engine
-      sha256: e20d079cca156e64598a83ee123f6387918d8fbb9faf934ce31b00b846c12926
+      sha256: eae6a7b9c7bf0d526faac61ea55188263e5501c7238293f0de5d811103bf9b5f
       url: "https://pub.dev"
     source: hosted
-    version: "3.22.1"
+    version: "3.23.0"
   zego_plugin_adapter:
     dependency: transitive
     description:
       name: zego_plugin_adapter
-      sha256: c574b0e71c9221a92a584f96f04437505b46f028c80abac2ab887c3bde64c0f6
+      sha256: ebeb9c1b737e5df3d62b251d14e2e764f822ebe6e322c0a25d49c0b714e54bc9
       url: "https://pub.dev"
     source: hosted
-    version: "2.14.1"
+    version: "2.14.2"
   zego_uikit:
     dependency: transitive
     description:
       name: zego_uikit
-      sha256: "3aa506e98801c8da1bfa13fde392422094ab3f39d26b7c5d61aa9e86850a5e01"
+      sha256: e3cc70eee7b3d7e4cc002b7596eb2dc84138ac3afa4ce08f8712109c4420bcbf
       url: "https://pub.dev"
     source: hosted
-    version: "2.28.33"
+    version: "2.28.43"
   zego_uikit_prebuilt_call:
     dependency: "direct main"
     description:
@@ -1229,14 +1237,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.21.1"
+  zego_uikit_prebuilt_live_streaming:
+    dependency: "direct main"
+    description:
+      name: zego_uikit_prebuilt_live_streaming
+      sha256: "3ccb371feb644d95231a45261c286ecfc0adeb99c5b43cdf669dddf115b40d13"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.15.6"
   zego_uikit_signaling_plugin:
     dependency: "direct main"
     description:
       name: zego_uikit_signaling_plugin
-      sha256: "6c0d823dff640f350f692a9d753fe4d1d9ad4423db11022dd53d43b6f2ec92c2"
+      sha256: "57b0e22308c7a795a3ff951453a57afa6b3b6fe77b9f85ef007b28f092b690d9"
       url: "https://pub.dev"
     source: hosted
-    version: "2.8.19"
+    version: "2.8.20"
   zego_zim:
     dependency: "direct main"
     description:

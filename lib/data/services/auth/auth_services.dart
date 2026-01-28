@@ -1,4 +1,5 @@
 import 'package:chat_app/data/constants/app_info.dart';
+import 'package:chat_app/data/models/user_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
@@ -39,8 +40,8 @@ class AuthServices{
 
       // Initialize Zego call invitation service
       await ZegoUIKitPrebuiltCallInvitationService().init(
-        appID: AppInfo.appId,
-        appSign: AppInfo.appSign,
+        appID: AppAudioVideoInfo.appId,
+        appSign: AppAudioVideoInfo.appSign,
         userID: user.uid,
         userName: user.email ?? user.uid,
         plugins: [ZegoUIKitSignalingPlugin()],
@@ -74,6 +75,9 @@ class AuthServices{
             'email' : email,
           }
       );
+
+
+
       // Initialize Zego after successful login
       await initZegoForUser(userCredential.user!);
       return userCredential;
@@ -85,7 +89,7 @@ class AuthServices{
 
 
   // sign up...........................
-  Future<UserCredential> signUpWithEmailPassword(String email,password) async{
+  Future<UserCredential> signUpWithEmailPassword(String userName,email,password) async{
     try {
       // create user
       UserCredential userCredential = await _auth.createUserWithEmailAndPassword(
@@ -94,12 +98,25 @@ class AuthServices{
       );
 
       // save user information in a separate doc
-      _firestore.collection("Users").doc(userCredential.user!.uid).set(
-        {
-          'uid' : userCredential.user!.uid,
-          'email' : email,
-        }
+      // _firestore.collection("Users").doc(userCredential.user!.uid).set(
+      //   {
+      //     'uid' : userCredential.user!.uid,
+      //     'email' : email,
+      //   }
+      // );
+
+      final userModel = UserModel(
+        uid: userCredential.user!.uid,
+        userName: userName,
+        email: email,
+        profileImage: '',
+        createdAt: DateTime.now(),
       );
+
+      // ✅ Save user info to Firestore
+      await _firestore.collection('Users').doc(userCredential.user!.uid).set(userModel.toMap());
+
+
       // Initialize Zego after successful login
       await initZegoForUser(userCredential.user!);
       return userCredential;
@@ -107,6 +124,14 @@ class AuthServices{
     } on FirebaseAuthException catch(e){
       throw Exception(e.code);
     }
+  }
+
+  // update user live status......
+  Future<void> updateLiveStatus( String userId, bool isLive, String? liveId) async{
+    await _firestore.collection("Users").doc(userId).update({
+      'isLive': isLive,
+      'liveId': liveId,
+    });
   }
 
    // sign out..................
