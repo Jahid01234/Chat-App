@@ -69,12 +69,14 @@ class AuthServices{
 
 
       // save user information if it does not already exit
-      _firestore.collection("Users").doc(userCredential.user!.uid).set(
-          {
-            'uid' : userCredential.user!.uid,
-            'email' : email,
-          }
-      );
+      // _firestore.collection("Users").doc(userCredential.user!.uid).set(
+      //     {
+      //       'uid' : userCredential.user!.uid,
+      //       'email' : email,
+      //     }
+      // );
+
+      await _firestore.collection("Users").doc(userCredential.user!.uid).get();
 
 
 
