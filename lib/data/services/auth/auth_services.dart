@@ -12,6 +12,7 @@ class AuthServices{
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
+
   // get current user....................
   User? getCurrentUser(){
     return _auth.currentUser;
@@ -69,13 +70,6 @@ class AuthServices{
 
 
       // save user information if it does not already exit
-      // _firestore.collection("Users").doc(userCredential.user!.uid).set(
-      //     {
-      //       'uid' : userCredential.user!.uid,
-      //       'email' : email,
-      //     }
-      // );
-
       await _firestore.collection("Users").doc(userCredential.user!.uid).get();
 
 
@@ -100,13 +94,6 @@ class AuthServices{
       );
 
       // save user information in a separate doc
-      // _firestore.collection("Users").doc(userCredential.user!.uid).set(
-      //   {
-      //     'uid' : userCredential.user!.uid,
-      //     'email' : email,
-      //   }
-      // );
-
       final userModel = UserModel(
         uid: userCredential.user!.uid,
         userName: userName,
@@ -135,6 +122,7 @@ class AuthServices{
       'liveId': liveId,
     });
   }
+
 
    // sign out..................
   Future<void> signOut() async {

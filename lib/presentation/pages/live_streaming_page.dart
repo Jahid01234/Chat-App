@@ -41,9 +41,9 @@ class _LiveStreamingPageState extends State<LiveStreamingPage> {
             }
 
             List<UserModel> users = snapshot.data!;
-            users.sort((a,b){
-              if(a.isLive && !b.isLive) return -1;
-              if(!a.isLive && b.isLive) return -1;
+            users.sort((a, b) {
+              if (a.isLive && !b.isLive) return -1;
+              if (!a.isLive && b.isLive) return 1;
               return 0;
             });
 
@@ -68,7 +68,7 @@ class _LiveStreamingPageState extends State<LiveStreamingPage> {
       ),
       floatingActionButton: FloatingActionButton.extended(
         elevation: 0,
-        backgroundColor: Colors.teal,
+        backgroundColor: Colors.blueGrey,
         onPressed: ()=>startLiveStreaming(),
         icon: const Icon(
           Icons.videocam,

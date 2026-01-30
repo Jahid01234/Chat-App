@@ -32,7 +32,7 @@ class UserCard extends StatelessWidget {
                       borderRadius: const BorderRadius.vertical(
                         top: Radius.circular(12),
                       ),
-                      color: Colors.grey.shade300,
+                      color: Colors.grey.shade500,
                       image: user.profileImage.isNotEmpty
                           ? DecorationImage(
                         image: NetworkImage(user.profileImage),
@@ -79,7 +79,6 @@ class UserCard extends StatelessWidget {
                                 color: Colors.white,
                               ),
                             ),
-
                           ],
                         ),
                       ),

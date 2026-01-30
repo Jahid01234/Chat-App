@@ -41,6 +41,10 @@ class HomePage extends StatelessWidget {
            );
          }
 
+         if(!snapshot.hasData || snapshot.data!.isEmpty){
+           return const Center(child: Text("No users available."));
+         }
+
          // error message
          if(snapshot.hasError){
            return const Center(
@@ -49,14 +53,6 @@ class HomePage extends StatelessWidget {
          }
 
          // return list view show user email data
-         // return ListView(
-         //   primary: false,
-         //   shrinkWrap: true,
-         //   scrollDirection: Axis.vertical,
-         //   children: snapshot.data!
-         //       .map<Widget>((userData) =>
-         //       _buildUserListItem(userData, context)).toList(),
-         // );
          return ListView(
            primary: false,
            shrinkWrap: true,
@@ -69,28 +65,6 @@ class HomePage extends StatelessWidget {
   }
 
     // build individual list tile for user..................................
-    // Widget _buildUserListItem(Map<String, dynamic> userData, context){
-    //   // display all users except current user
-    //   if(userData['email'] != authServices.getCurrentUser()!.email) { // do not show current user email
-    //     return UserTile(
-    //       text: userData["email"],
-    //       onTap: () {
-    //         // go to chat page
-    //         Navigator.push(context, MaterialPageRoute(
-    //           builder: (context) =>
-    //               ChatPage(
-    //                 receiverEmail: userData["email"],
-    //                 receiverID: userData["uid"],
-    //               ),
-    //           ),
-    //         );
-    //       },
-    //     );
-    //   }else{
-    //     return Container();
-    //   }
-    // }
-
    Widget _buildUserListItem(UserModel user, BuildContext context) {
      // exclude current user (extra safety)
      if (user.uid != authServices.getCurrentUser()!.uid) {

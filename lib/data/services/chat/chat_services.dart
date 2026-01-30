@@ -13,30 +13,6 @@ class ChatServices extends ChangeNotifier {
 
 
    // GET ALL USERS STREAM EXCEPT BLOCKED USERS..............
-   // Stream<List<Map<String,dynamic>>> getUsersStreamExcludingBlocked(){
-   //   final currentUser = _auth.currentUser;
-   //   return _firestore
-   //             .collection("Users")
-   //             .doc(currentUser!.uid)
-   //             .collection("BlockedUsers")
-   //             .snapshots()
-   //             .asyncMap((snapshot) async{
-   //       // get list of blocked user ids
-   //       final blockedUserIds = snapshot.docs.map((doc) => doc.id).toList();
-   //
-   //       // get all users
-   //       final userDocs = await _firestore.collection("Users").get();
-   //
-   //       // return as a stream list, excluding current user and blocked users
-   //        return userDocs.docs
-   //                .where((doc) => doc.data()['email'] != currentUser.email && !blockedUserIds.contains(doc.id))
-   //                .map((doc) => doc.data())
-   //                .toList();
-   //
-   //     });
-   //
-   // }
-
   Stream<List<UserModel>> getUsersStreamExcludingBlocked() {
     final currentUser = _auth.currentUser;
 
@@ -46,13 +22,13 @@ class ChatServices extends ChangeNotifier {
         .collection("BlockedUsers")
         .snapshots()
         .asyncMap((snapshot) async {
-      // 1️⃣ blocked user ids
+      // blocked user ids
       final blockedUserIds = snapshot.docs.map((doc) => doc.id).toList();
 
-      // 2️⃣ get all users
+      // get all users
       final userDocs = await _firestore.collection("Users").get();
 
-      // 3️⃣ convert to UserModel list
+      // convert to UserModel list
       return userDocs.docs
           .where((doc) =>
       doc.id != currentUser.uid &&
@@ -170,25 +146,6 @@ class ChatServices extends ChangeNotifier {
 
 
   // GET BLOCKED USERS STREAM..............................
-  // Stream<List<Map<String,dynamic>>> getBlockedUsersStream(String userID){
-  //    return _firestore
-  //             .collection("Users")
-  //             .doc(userID)
-  //             .collection("BlockedUsers")
-  //             .snapshots()
-  //             .asyncMap((snapshot) async{
-  //               // get list of blocked user ids
-  //             final blockedUserIds = snapshot.docs.map((doc) => doc.id).toList();
-  //
-  //             final userDocs = await Future.wait(
-  //                 blockedUserIds.map((id) => _firestore.collection("Users").doc(id).get()),
-  //             );
-  //       // return as a list
-  //       return userDocs.map((doc) => doc.data() as Map<String,dynamic>).toList();
-  //    });
-  //
-  // }
-
   Stream<List<UserModel>> getBlockedUsersStream(String userID) {
     return _firestore
         .collection("Users")
@@ -196,7 +153,7 @@ class ChatServices extends ChangeNotifier {
         .collection("BlockedUsers")
         .snapshots()
         .asyncMap((snapshot) async {
-      // 1️⃣ blocked user IDs
+      //  blocked user IDs
       final blockedUserIds =
       snapshot.docs.map((doc) => doc.id).toList();
 
@@ -204,14 +161,14 @@ class ChatServices extends ChangeNotifier {
         return <UserModel>[];
       }
 
-      // 2️⃣ fetch blocked user documents
+      // fetch blocked user documents
       final userDocs = await Future.wait(
         blockedUserIds.map(
               (id) => _firestore.collection("Users").doc(id).get(),
         ),
       );
 
-      // 3️⃣ Map Firestore data → UserModel
+      // Map Firestore data → UserModel
       return userDocs
           .where((doc) => doc.exists && doc.data() != null)
           .map((doc) => UserModel.fromMap(doc.data()!))
